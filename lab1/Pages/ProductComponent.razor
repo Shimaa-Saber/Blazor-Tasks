@@ -1,0 +1,23 @@
+﻿@page "/ProductDetailes"
+@using lab1.Models
+
+<PageTitle>Product Details</PageTitle>
+<h3>ProductComponent</h3>
+
+<select class="form form-control" @bind="ProductId" @bind:event="oninput" @onchange="GetPro">
+    @foreach (var item in ProdList)
+    {
+        <option value="@item.id">@item.Name</option>
+    }
+</select>
+
+
+<div style="margin-top:20px; box-shadow:5px 5px 10px rgba(0, 0, 0, 0.3); width:200px;height:auto">
+    @if (product != null)
+    {
+        <img src="@product.ImageURl" alt="@product.Name" style="max-width: 200px;" />
+        <h3>@product.Name</h3>
+        <h3>@product.Price.ToString("C")</h3>
+    }
+   
+</div>

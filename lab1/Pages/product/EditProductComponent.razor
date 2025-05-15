@@ -1,0 +1,79 @@
+﻿
+@page "/Products/Edit/{id:int}"
+@using lab1.Models
+@using lab1.Servises
+
+
+<h3>Edit Product</h3>
+
+
+@if (ProductObj != null)
+{
+    <EditForm Model="ProductObj" OnSubmit="Save">
+        <div>
+            <label>Name</label>
+            <InputText class="form form-control" @bind-Value="ProductObj.Name"></InputText>
+        </div>
+        <div>
+            <label>Price</label>
+            <InputNumber class="form form-control" @bind-Value="ProductObj.Price"></InputNumber>
+        </div>
+        <div>
+            <label>ImageURL</label>
+            <InputText class="form form-control" @bind-Value="ProductObj.ImageURl"></InputText>
+        </div>
+        
+        <div>
+            <label>Category</label>
+
+            <InputSelect class="form form-control" @bind-Value="ProductObj.Category_id">
+                @foreach (var Item in CategoryList)
+                {
+                    <option value="@Item.id">@Item.Name</option>
+                }
+
+            </InputSelect>
+        </div>
+        <input type="submit" value="Save" class="btn btn-success" />
+    </EditForm>
+
+    <h3>@ProductObj</h3>
+}
+else
+{
+    <h3>Invalid Id OR Waiting </h3>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    public Product ProductObj { get; set; }
+
+    public List<Category> CategoryList { get; set; }
+
+    [Inject]
+    public IProduct ProductService { get; set; }
+
+    [Inject]
+    public ICategory CatService { get; set; }
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ProductObj = ProductService.GetByID(id);
+        CategoryList = CatService.GetAll();
+        base.OnInitialized();
+    }
+    public void Save()
+    {
+        
+        Console.WriteLine("Save Success");
+        NavManager.NavigateTo("/Products");
+    }
+
+}

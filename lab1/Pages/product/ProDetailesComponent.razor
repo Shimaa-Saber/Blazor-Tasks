@@ -1,0 +1,39 @@
+﻿@page "/Products/detailes/{id:int}"
+@using lab1.Servises
+@using lab1.Models
+
+<h3>Product Detailes</h3>
+
+@if (Product_Obj != null)
+{
+    <div style="width:350px;height:auto;border:3px;box-shadow:5px 5px 10px rgba(0, 0, 0, 0.3);padding-left:10px;padding-top:40px;background-color:antiquewhite">
+     <img src="@Product_Obj.ImageURl" style="width:200px" />
+    <h2 style="font-size:20px">Name: @Product_Obj.Name</h2>
+        <h2 style="font-size:20px">Price: @Product_Obj.Price</h2>
+        <h2 style="font-size:20px">Category id: @Product_Obj.Category_id</h2>
+    
+    </div>
+}
+else
+{
+    <h3>Wait Or Invalid ID :)</h3>
+}
+<button class="btn-info" style="margin-left:20px;margin-top:50px; ">
+    <a style="text-decoration: none;color:black" href="/Products">Back To List</a>
+</button>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    [Inject]
+    public IProduct ProductService { get; set; }
+
+
+    public Product Product_Obj { get; set; }
+    protected override void OnInitialized()
+    {
+        Product_Obj = ProductService.GetByID(id);
+        base.OnInitialized();
+    }
+}

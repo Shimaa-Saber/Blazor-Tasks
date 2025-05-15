@@ -1,0 +1,58 @@
+﻿@page "/Products"
+@using lab1.Servises
+@using lab1.Models
+<PageTitle>All Products</PageTitle>
+
+<h3>AllProductsComponent</h3>
+
+@if (Products != null)
+{
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Products)
+        {
+            <tr>
+                <td>
+                    @item.id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <button class="btn btn-info" style="background-color:aqua; ">
+                        <a style="text-decoration: none;color:black" href="/Products/detailes/@item.id">Details</a>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-secondary" style="background-color:orangered ">
+                        <a style="text-decoration: none;color:black" href="/Products/Edit/@item.id">Edit</a>
+                    </button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>Wait...</h3>
+}
+
+
+
+@code {
+
+    [Inject]
+    public IProduct AllProductsService { get; set; }
+
+    public List<Product> Products { get; set; }
+    protected override void OnInitialized()
+    {
+        Products = AllProductsService.GetAll();
+        base.OnInitialized();
+    }
+
+}
